@@ -233,7 +233,7 @@ nav button.active{color:var(--lime)}
       <div class="set-row"><span>Mevcut kilo (kg)</span><input type="number" inputmode="decimal" id="setWeight" onchange="saveSettings()"></div>
       <div class="set-row"><span>Protein hedefi (g)</span><input type="number" inputmode="numeric" id="setProtein" onchange="saveSettings()"></div>
       <div class="set-row"><span>Kalori hedefi (kcal)</span><input type="number" inputmode="numeric" id="setKcal" onchange="saveSettings()"></div>
-      <div style="font-size:12px;color:var(--ink-dim);margin-top:10px">İpucu: Protein = kilon × 1.8 civarı. Kalori hedefi, bakım kalorinin ~350 altı (recomposition için).</div>
+      <div style="font-size:12px;color:var(--ink-dim);margin-top:10px">Kilonu girince protein ve kalori hedefi otomatik hesaplanır (protein: kilo × 1.8 · kalori: kilo × 33 − 350). İstersen üzerine yazıp elle değiştirebilirsin.</div>
     </div>
     <div class="card">
       <h2>Yedekleme</h2>
@@ -481,7 +481,13 @@ function saveMeasure(){
   if(existing){ if(w)existing.w=w; if(b)existing.b=b; }
   else DB.measures.push({d:k, w:w||null, b:b||null});
   DB.measures.sort(function(a,x){return a.d<x.d?-1:1});
-  if(w){ DB.settings.weight=w; document.getElementById("setWeight").value=w; }
+  if(w){
+    DB.settings.weight=w; document.getElementById("setWeight").value=w;
+    var t=calcTargets(w);
+    DB.settings.protein=t.protein; DB.settings.kcal=t.kcal;
+    document.getElementById("setProtein").value=t.protein;
+    document.getElementById("setKcal").value=t.kcal;
+  }
   save();
   document.getElementById("inWeight").value=""; document.getElementById("inWaist").value="";
   toast("Ölçüm kaydedildi 📏");
@@ -542,8 +548,20 @@ function renderSettings(){
   document.getElementById("setProtein").value=DB.settings.protein;
   document.getElementById("setKcal").value=DB.settings.kcal;
 }
+function calcTargets(w){
+  return { protein: Math.round(w*1.8), kcal: Math.round(w*33-350) };
+}
 function saveSettings(){
+  var oldW = DB.settings.weight;
   DB.settings.weight=parseFloat(document.getElementById("setWeight").value)||DB.settings.weight;
+  if(DB.settings.weight!==oldW){
+    var t=calcTargets(DB.settings.weight);
+    DB.settings.protein=t.protein; DB.settings.kcal=t.kcal;
+    document.getElementById("setProtein").value=t.protein;
+    document.getElementById("setKcal").value=t.kcal;
+    save(); renderFood(); toast("Hedefler kilona göre hesaplandı ✔");
+    return;
+  }
   DB.settings.protein=parseInt(document.getElementById("setProtein").value)||DB.settings.protein;
   DB.settings.kcal=parseInt(document.getElementById("setKcal").value)||DB.settings.kcal;
   save(); renderFood(); toast("Hedefler güncellendi");
