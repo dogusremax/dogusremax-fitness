@@ -3,11 +3,11 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<title>Doğuş Fit</title>
+<title>Umut Fit</title>
 <meta name="theme-color" content="#0B1F3A">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-<meta name="apple-mobile-web-app-title" content="Doğuş Fit">
+<meta name="apple-mobile-web-app-title" content="Umut Fit">
 <link rel="manifest" id="manifestLink">
 <style>
 :root{
@@ -27,20 +27,6 @@ body{
 }
 .hidden{display:none!important}
 
-/* ---------- LOGIN ---------- */
-#loginScreen{position:fixed;inset:0;background:var(--navy);display:flex;flex-direction:column;align-items:center;justify-content:center;z-index:100;padding:24px}
-.logo-badge{width:88px;height:88px;border-radius:24px;background:linear-gradient(135deg,var(--lime),var(--lime-dark));display:flex;align-items:center;justify-content:center;font-size:44px;margin-bottom:18px;box-shadow:0 8px 32px rgba(200,241,53,.25)}
-#loginScreen h1{font-size:26px;font-weight:800;letter-spacing:-.5px}
-#loginScreen p{color:var(--ink-dim);margin:6px 0 26px;font-size:14px}
-.pin-dots{display:flex;gap:14px;margin-bottom:26px}
-.pin-dot{width:14px;height:14px;border-radius:50%;border:2px solid var(--ink-dim);transition:.15s}
-.pin-dot.full{background:var(--lime);border-color:var(--lime)}
-.pin-pad{display:grid;grid-template-columns:repeat(3,72px);gap:14px}
-.pin-key{height:72px;border-radius:50%;border:none;background:var(--navy2);color:var(--ink);font-size:24px;font-weight:600;cursor:pointer}
-.pin-key:active{background:var(--card)}
-.pin-key.ghost{background:transparent;font-size:15px;color:var(--ink-dim)}
-.shake{animation:shake .35s}
-@keyframes shake{0%,100%{transform:translateX(0)}25%{transform:translateX(-8px)}75%{transform:translateX(8px)}}
 
 /* ---------- HEADER ---------- */
 header{padding:calc(14px + env(safe-area-inset-top)) 18px 12px;display:flex;align-items:center;justify-content:space-between}
@@ -85,6 +71,16 @@ main{padding:4px 16px 16px;max-width:560px;margin:0 auto}
 .ring-val{font-size:17px;font-weight:800;margin-top:4px}
 .ring-lab{font-size:11px;color:var(--ink-dim);text-transform:uppercase;letter-spacing:.8px}
 .food-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.meal-chips{display:flex;gap:6px;overflow-x:auto;margin-bottom:12px;padding-bottom:2px}
+.chip{border:none;border-radius:20px;padding:9px 14px;background:var(--card);color:var(--ink-dim);font-size:13px;font-weight:700;cursor:pointer;white-space:nowrap}
+.chip.on{background:var(--lime);color:var(--navy)}
+.menu-box{background:var(--card);border-radius:12px;padding:12px;margin-bottom:12px}
+.menu-box .mtitle{font-size:13px;font-weight:700;color:var(--lime);margin-bottom:6px}
+.menu-box .mitems{font-size:13px;color:var(--ink-dim);line-height:1.5}
+.menu-box button{margin-top:10px;width:100%;padding:10px;border:none;border-radius:10px;background:rgba(200,241,53,.15);color:var(--lime);font-weight:800;font-size:13px;cursor:pointer}
+.meal-head{font-size:12px;font-weight:800;color:var(--lime);text-transform:uppercase;letter-spacing:1px;margin:12px 0 2px}
+.meal-head:first-child{margin-top:0}
+.meal-head small{color:var(--ink-dim);font-weight:600;text-transform:none;letter-spacing:0}
 .food-btn{background:var(--card);border:none;border-radius:12px;padding:11px 10px;color:var(--ink);text-align:left;cursor:pointer}
 .food-btn b{display:block;font-size:14px}
 .food-btn small{color:var(--ink-dim);font-size:11px}
@@ -121,28 +117,25 @@ nav button span{display:block;font-size:21px;margin-bottom:3px}
 nav button.active{color:var(--lime)}
 .toast{position:fixed;bottom:calc(90px + env(safe-area-inset-bottom));left:50%;transform:translateX(-50%);background:var(--lime);color:var(--navy);font-weight:800;padding:11px 22px;border-radius:24px;font-size:14px;z-index:99;opacity:0;transition:.25s;pointer-events:none;white-space:nowrap}
 .toast.show{opacity:1}
+/* hareket bilgi penceresi */
+#infoOverlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:80;display:flex;align-items:flex-end}
+#infoSheet{background:var(--navy2);border-radius:22px 22px 0 0;width:100%;max-height:78vh;overflow-y:auto;padding:20px 20px calc(24px + env(safe-area-inset-bottom))}
+#infoSheet h3{font-size:19px;margin-bottom:4px}
+#infoSheet .set-info{color:var(--lime);font-size:13px;font-weight:700;margin-bottom:14px}
+#infoSheet .desc{font-size:15px;line-height:1.65;color:var(--ink);white-space:pre-line}
+#infoSheet .close-btn{width:100%;margin-top:18px;padding:14px;border:none;border-radius:14px;background:var(--card);color:var(--ink);font-size:15px;font-weight:700;cursor:pointer}
+.ex-info-hint{font-size:11px;color:var(--ink-dim)}
 @media (prefers-reduced-motion: reduce){*{transition:none!important;animation:none!important}}
 </style>
 </head>
 <body>
-
-<!-- LOGIN -->
-<div id="loginScreen">
-  <div class="logo-badge">💪</div>
-  <h1>Doğuş Fit</h1>
-  <p>Antrenman · Besin · Ölçüm Takibi</p>
-  <div class="pin-dots" id="pinDots">
-    <div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div><div class="pin-dot"></div>
-  </div>
-  <div class="pin-pad" id="pinPad"></div>
-</div>
 
 <!-- APP -->
 <div id="app" class="hidden">
 <header>
   <div class="brand">
     <div class="mini">💪</div>
-    <div><b>Doğuş Fit</b><small id="todayStr"></small></div>
+    <div><b>Umut Fit</b><small id="todayStr"></small></div>
   </div>
   <div id="streakBadge">🔥 0 gün</div>
 </header>
@@ -192,7 +185,9 @@ nav button.active{color:var(--lime)}
       </div>
     </div>
     <div class="card">
-      <h2>Hızlı Ekle</h2>
+      <h2>Öğün Seç → Ekle</h2>
+      <div class="meal-chips" id="mealChips"></div>
+      <div class="menu-box" id="menuBox"></div>
       <div class="food-grid" id="foodGrid"></div>
     </div>
     <div class="card">
@@ -264,24 +259,61 @@ nav button.active{color:var(--lime)}
 var PIN = "1520";
 var LS = "dogusfit_v1";
 
+/* Hareket açıklamaları — salonda tek başına anlaşılacak şekilde */
+var EXINFO = {
+"Isınma – yürüyüş bandı":"Koşu bandına çık (üzerinde yürünen uzun bantlı makine). START'a bas, hızı 5.5-6 km/s yap. 5 dakika tempolu yürü — amaç terlemeye başlamak, koşmak değil. Vücut ısınmadan ağırlık kaldırmak sakatlanma riskidir.",
+"Isınma":"Koşu bandı veya bisiklette 5 dakika hafif tempo. Amaç kalp atışını yükseltip kasları ısıtmak. Hafif terlemeye başladıysan hazırsın.",
+"Göğüs pres":"MAKİNEYİ BUL: Üzerinde göğüs kası resmi olan, oturarak önündeki iki kolu İLERİ ittiğin makine. Genelde 'Chest Press' yazar.\n\nNASIL: Otur, sırtın yaslı. Tutma kolları göğüs hizanda olsun (koltuk yüksekliği yandaki pimle ayarlanır). Kolları ileri it, dirsekleri tam kilitleme, yavaşça geri getir. İterken nefes ver.\n\nAĞIRLIK: Plaka yığınındaki pimi hafif bir sayıya tak. 10 tekrarın son 2-3'ünde zorlanmalısın ama form bozulmamalı.",
+"Incline dumbbell pres":"NEREDE: Dambıl (tek elle tutulan ağırlık) rafının yanındaki EĞİK sehpa. Sırtlığı 30-45 derece eğik ayarla.\n\nNASIL: İki elinde dambılla otur, sırtını yasla. Dambılları göğüs hizasından yukarı it, tepede birbirine yaklaştır, yavaşça indir. İterken nefes ver.\n\nBAŞLANGIÇ: 6-8 kg dambılla dene, kolay gelirse artır.",
+"Omuz pres":"MAKİNEYİ BUL: Oturarak kolları başının ÜSTÜNE ittiğin makine, üzerinde omuz resmi olur ('Shoulder Press').\n\nNASIL: Otur, tutma yerleri omuz hizasında. Yukarı it, dirsekleri kilitleme, kontrollü indir. Sırtın hep yaslı kalsın, belini kavis yapıp zorlama.",
+"Lateral raise":"MAKİNE YOK — DAMBIL: İki eline HAFİF dambıl al (2-4 kg yeter, bu harekette herkes hafif kullanır).\n\nNASIL: Ayakta, kollar yanda. Kolları hafif kırık şekilde kuş kanadı gibi YANLARA, omuz hizasına kadar kaldır, yavaş indir. Omuz hizasını geçme. Sallanarak kaldırıyorsan ağırlık fazla demektir.",
+"Triceps pushdown":"NEREDE: Kablo istasyonu — yerden tavana uzanan, makaralı kule. Makarayı EN ÜSTE al, ucuna ip veya kısa bar tak.\n\nNASIL: Karşısına geç, dirseklerini vücuduna yapıştır ve SABİT tut. Sadece dirsekten AŞAĞI it, kollar düzleşince yavaşça bırak. Dirsekler oynuyorsa yanlış. Kolun arka kasını (pazının tersi) çalıştırır.",
+"Eğimli yürüyüş":"Koşu bandında hız 5.5-6 km/s, EĞİM (incline tuşu) %6-8. 8 dakika yürü. Eğimli yürüyüş düz koşudan çok yağ yakar, dizleri yormaz. Korkuluklara tutunma — tutunursan etki azalır.",
+"Lat pulldown":"MAKİNEYİ BUL: Oturduğunda TEPENDEN geniş bir barı AŞAĞI çektiğin makine. Üzerinde sırt resmi olur.\n\nNASIL: Otur, dizlerini üstteki pedin altına sabitle. Barı omuzdan geniş tut, göğsünün üst kısmına doğru çek (enseye DEĞİL), kürek kemiklerini sık, yavaşça bırak. Çekerken nefes ver.",
+"Seated row":"MAKİNEYİ BUL: Oturarak ÖNÜNDEN tutacağı kendine çektiğin makine — kürek çeker gibi ('Seated Row' / 'Low Row').\n\nNASIL: Ayaklar platformda, sırt dik. Tutacağı karnına doğru çek, kürek kemiklerini arkada sıkıştır, yavaş bırak. Belden öne-arkaya sallanma; iş sırttan gelsin.",
+"Dumbbell row":"NEREDE: Dambıl rafı + düz sehpa.\n\nNASIL: Sağ dizin ve sağ elin sehpada, sırtın yere paralel. Sol eldeki dambılı beline doğru çek (dirsek tavana), yavaş indir. 10 tekrar, sonra taraf değiştir. Sırtını kamburlaştırma.",
+"Face pull":"NEREDE: Kablo istasyonu. Makarayı YÜZ hizasına ayarla, ucuna İP tak.\n\nNASIL: İpi iki elle tut, bir adım geri. İpi yüzüne doğru çek, dirsekler yanlara açılsın, ipin uçları kulak hizasına gelsin. Hafif ağırlıkla. Omuz sağlığı ve duruş için altın hareket — masa başı çalışanlara birebir.",
+"Biceps curl":"DAMBIL: İki elde dambıl, ayakta.\n\nNASIL: Dirsekler vücuda sabit. Dambılları omuzlara doğru kaldır (avuçlar yukarı), yavaş indir. Belinle sallanarak kaldırıyorsan ağırlık fazla. Pazıyı çalıştırır.",
+"Kardiyo":"Koşu bandı, bisiklet veya eliptik — hangisi boşsa. 8 dakika orta tempo: konuşabilecek ama şarkı söyleyemeyecek kadar.",
+"Leg press":"MAKİNEYİ BUL: Oturup AYAKLARINLA büyük platformu ittiğin makine — salonun en büyüklerinden.\n\nNASIL: Ayaklar platformda omuz genişliğinde. Yandaki güvenlik kolunu aç, platformu it (dizleri kilitleme), dizler 90 dereceye gelene kadar indir. Bitince güvenlik kolunu KAPAT. Bacak için en güvenli başlangıç hareketi.",
+"Romanian deadlift":"DAMBIL: İki elde dambıl, ayakta, dambıllar bacak önünde.\n\nNASIL: Dizler ÇOK HAFİF kırık ve sabit. Kalçanı GERİYE iterek öne eğil, dambıllar bacağa yakın süzülerek insin. Bacak arkasında gerilme hissedince kalçanı sıkarak doğrul. SIRT HEP DÜZ. Hafif başla, formu öğren — bel sağlığı için çok değerli bir hareket.",
+"Leg curl":"MAKİNEYİ BUL: Yüzüstü yatarak (veya oturarak) TOPUKLARINLA pedi kalçana çektiğin makine ('Leg Curl').\n\nNASIL: Ped ayak bileğinin hemen üstünde. Topukları kalçaya çek, yavaş bırak. Bacak arkasını çalıştırır.",
+"Plank":"MAT: Yere mat ser. Dirsekler ve ayak parmak uçları yerde, vücut BAŞTAN TOPUĞA DÜZ ÇİZGİ. Kalça ne kalksın ne çöksün. Karnını sık, normal nefes al, süre dolana kadar dayan. Titreme normaldir — karın öyle çalışır.",
+"Cable crunch":"NEREDE: Kablo istasyonu, makara EN ÜSTTE, uçta ip.\n\nNASIL: İpin altına DİZ ÇÖK, ipi başının iki yanında tut. Karnını sıkarak dirseklerini dizlerine doğru götür (öne kıvrıl), yavaş doğrul. Kollarınla değil KARNINLA çek. Mekikten etkilidir çünkü ağırlık eklenebilir.",
+"Side plank":"MAT: Yan yat, alt dirsek yerde, ayaklar üst üste. Kalçayı yerden kaldır — vücut yandan düz çizgi. Süre dolunca taraf değiştir. Bel çevresi yan karın kaslarını çalıştırır — senin hedef bölgen.",
+"Interval: 30 sn sprint + 60 sn yavaş":"Bisiklet veya bantta: 30 saniye ELİNDEN GELDİĞİNCE hızlı, 60 saniye çok yavaş toparlan. Bu = 1 tur (90 sn). 10 tur hedef; ilk haftalar 6-7 tur da olur. Kısa ama çok etkili — bittikten sonra saatlerce kalori yakmaya devam edersin.",
+"Soğuma":"5 dakika çok hafif yürüyüş. Kalp atışı normale insin — aniden durmak baş dönmesi yapabilir.",
+"Squat":"BAŞLANGIÇ İÇİN 'GOBLET SQUAT': Bir dambılı iki elinle göğsünün önünde dik tut.\n\nNASIL: Ayaklar omuz genişliğinde, burunlar hafif dışa. Sandalyeye oturur gibi kalçanı geriye-aşağı indir; topuklar yerde, sırt dik. Kalça diz hizasına inince kalk. Aynadan yandan kontrol et: topuk yerde mi, sırt düz mü? En çok kalori yakan, en çok kas çalıştıran hareket.",
+"Bench press":"NEREDE: Düz sehpa + dambıl (başlangıçta dambıl, bardan güvenlidir).\n\nNASIL: Sırtüstü yat, iki elde dambıl. Göğüs hizasından yukarı it, tepede yaklaştır, yavaş indir. Ayaklar yerde sabit, iterken nefes ver.",
+"Barbell row":"KOLAY ALTERNATİF: Emin değilsen bunun yerine Seated Row makinesini kullan (Salı günkü hareket) — aynı kasları güvenle çalıştırır.\n\nBARLA YAPACAKSAN: Barı tut, dizler hafif kırık, sırt DÜZ şekilde öne eğil, barı karnına çek, indir. Sırt yuvarlanıyorsa makineye geç.",
+"Hanging knee raise":"NEREDE: Barfiks barı (veya dirsek destekli 'captain's chair' aleti varsa o).\n\nNASIL: Bardan sarkarak dizlerini karnına ÇEK, yavaş indir, sallanma. Göbeğin alt kısmı için birebir.\n\nZORSA ALTERNATİF: Matta sırtüstü yat, dizleri göğsüne çekip kalçanı yerden kaldır ('reverse crunch') — aynı bölge.",
+"Tempolu yürüyüş":"Dışarıda veya bantta 40-45 dk tempolu yürü. Tempo ölçüsü: nefes hızlansın ama konuşabil. 'Kolay' gün — kaslar dinlenirken yağ yakmaya devam.",
+"Esneme":"5 dakika: bacak arkası, göğüs, omuz esnetmeleri. Her birini 20-30 saniye TUT, zıplama yok. Yarınki kas ağrısını azaltır.",
+"Duvar melekleri":"DURUŞ HAREKETİ — MAKİNE YOK: Sırtını duvara tamamen yasla (topuklar duvara yakın, bel, sırt, KAFA duvarda). Kollarını 'teslim ol' pozisyonunda duvara yasla — dirsekler 90 derece. Kolları duvardan AYIRMADAN yavaşça yukarı uzat, sonra indir. Kar meleği yapar gibi. 10 tekrar.\n\nZor gelecek, kolların duvardan kopmak isteyecek — kamburluğun kanıtı tam olarak bu. Kopurmadan yapabildiğin kadarıyla başla.",
+"Göğüs esnetme (kapı)":"DURUŞ HAREKETİ: Kapı eşiğine (veya salonda dikey bir direğe) yan dur. Kolunu 90 derece bük, dirseğini ve avucunu kapı çerçevesine yasla. Gövdeni HAFİFÇE öne-karşıya döndür — göğsünün ön kısmında gerilme hissedeceksin. 30 saniye tut, taraf değiştir.\n\nKamburluğun yarısı kısalmış göğüs kasıdır; bu hareket onu açar.",
+"Çene çekme (chin tuck)":"DURUŞ HAREKETİ: Dik otur veya ayakta dur. Çeneni boğazına doğru GERİYE çek — kendine 'gıdı' yapar gibi. Kafan geriye kayar, ense uzar. 5 saniye tut, bırak. 10 tekrar.\n\nÖne çıkmış 'telefon boynu'nu düzeltir. Gün içinde masada da yapabilirsin, kimse fark etmez 🙂",
+"Band pull-apart / havlu germe":"DURUŞ HAREKETİ: Salonda lastik direnç bandı varsa: bandı iki elle omuz genişliğinde önünde tut, kollarını YANLARA açarak bandı gerdir, kürek kemiklerini arkada sıkıştır, yavaş bırak. 15 tekrar.\n\nBant yoksa: havluyu gergin tutup aynı hareketi yap ve kürek kemiklerini 5 sn sıkılı tut."
+};
+
 /* Haftalık program: 0=Pazar ... 6=Cumartesi */
+var POSTURE = [["Duvar melekleri","10 tekrar"],["Göğüs esnetme (kapı)","30 sn/taraf"],["Çene çekme (chin tuck)","10 tekrar"],["Band pull-apart / havlu germe","15 tekrar"]];
 var PROGRAM = {
   1:{title:"İtiş Günü",sub:"Göğüs · Omuz · Arka Kol",ex:[
     ["Isınma – yürüyüş bandı","5 dk"],["Göğüs pres","4×10"],["Incline dumbbell pres","3×10"],
-    ["Omuz pres","3×10"],["Lateral raise","3×12"],["Triceps pushdown","3×12"],["Eğimli yürüyüş","8 dk"]]},
+    ["Omuz pres","3×10"],["Lateral raise","3×12"],["Triceps pushdown","3×12"],["Eğimli yürüyüş","8 dk"]].concat(POSTURE.slice(0,2))},
   2:{title:"Çekiş Günü",sub:"Sırt · Ön Kol",ex:[
     ["Isınma","5 dk"],["Lat pulldown","4×10"],["Seated row","3×10"],["Dumbbell row","3×10"],
-    ["Face pull","3×12"],["Biceps curl","3×12"],["Kardiyo","8 dk"]]},
+    ["Face pull","3×12"],["Biceps curl","3×12"],["Kardiyo","8 dk"]].concat(POSTURE.slice(2,4))},
   3:{title:"Bacak + Core",sub:"Alt Vücut · Karın",ex:[
     ["Isınma","5 dk"],["Leg press","4×10"],["Romanian deadlift","3×10"],["Leg curl","3×12"],
-    ["Plank","3×40 sn"],["Cable crunch","3×15"],["Side plank","2×30 sn/taraf"]]},
+    ["Plank","3×40 sn"],["Cable crunch","3×15"],["Side plank","2×30 sn/taraf"]].concat(POSTURE.slice(0,2))},
   4:{title:"HIIT Kardiyo",sub:"Yağ Yakım Günü",ex:[
-    ["Isınma","5 dk"],["Interval: 30 sn sprint + 60 sn yavaş","10 tur"],["Soğuma","5 dk"]]},
+    ["Isınma","5 dk"],["Interval: 30 sn sprint + 60 sn yavaş","10 tur"],["Soğuma","5 dk"]].concat(POSTURE.slice(2,4))},
   5:{title:"Tüm Vücut",sub:"Ağır Gün",ex:[
     ["Isınma","5 dk"],["Squat","4×8"],["Bench press","3×8"],["Barbell row","3×8"],
-    ["Omuz pres","3×10"],["Hanging knee raise","3×12"]]},
+    ["Omuz pres","3×10"],["Hanging knee raise","3×12"]].concat(POSTURE.slice(0,2))},
   6:{title:"Tempolu Yürüyüş",sub:"Toparlanma + Yağ Yakımı",ex:[
-    ["Tempolu yürüyüş","40-45 dk"],["Esneme","5 dk"]]},
+    ["Tempolu yürüyüş","40-45 dk"],["Esneme","5 dk"]].concat(POSTURE)},
   0:{title:"Dinlenme",sub:"Kaslar bugün büyüyor 😌",ex:[]}
 };
 
@@ -304,6 +336,14 @@ var FOODS = [
   {n:"Çorba (1 kase)",p:6,k:150}
 ];
 
+var MEALS = [
+  {id:"kahvalti", n:"🌅 Kahvaltı", menu:[0,0,0,7,9], desc:"3 yumurta + lor + 1 dilim tam buğday ekmek"},
+  {id:"ogle", n:"☀️ Öğle", menu:[1,8,13], desc:"Tavuk göğsü + bulgur pilavı + salata"},
+  {id:"ara", n:"🥜 Ara Öğün", menu:[10], desc:"1 avuç badem/ceviz"},
+  {id:"antrenman", n:"💪 Antrenman Sonrası", menu:[5,14], desc:"Ayran + muz (whey varsa onu ekle)"},
+  {id:"aksam", n:"🌙 Akşam", menu:[3,4,13], desc:"Kırmızı et/balık + süzme yoğurt + salata"}
+];
+var currentMeal = "kahvalti";
 var DAYS_TR = ["Pazar","Pazartesi","Salı","Çarşamba","Perşembe","Cuma","Cumartesi"];
 var DAYS_SHORT = ["Pt","Sa","Ça","Pe","Cu","Ct","Pz"]; // Pazartesi başlangıçlı strip
 
@@ -317,37 +357,9 @@ DB.days = DB.days || {};       // "2026-07-05": {ex:[true,false...], done:true, 
 DB.measures = DB.measures || []; // {d:"2026-07-05", w:85, b:98}
 function day(){ var k=todayKey(); if(!DB.days[k]) DB.days[k]={ex:[],done:false,water:0,foods:[]}; return DB.days[k]; }
 
-/* ================= LOGIN ================= */
-var pinBuf="";
-(function(){
-  var keys=["1","2","3","4","5","6","7","8","9","","0","⌫"];
-  var pad=document.getElementById("pinPad");
-  keys.forEach(function(k){
-    var b=document.createElement("button");
-    b.className="pin-key"+(k===""?" ghost":"")+(k==="⌫"?" ghost":"");
-    b.textContent=k;
-    if(k!=="") b.onclick=function(){ pinPress(k) };
-    pad.appendChild(b);
-  });
-})();
-function pinPress(k){
-  if(k==="⌫"){ pinBuf=pinBuf.slice(0,-1); } else if(pinBuf.length<4){ pinBuf+=k; }
-  var dots=document.querySelectorAll(".pin-dot");
-  dots.forEach(function(d,i){ d.classList.toggle("full", i<pinBuf.length) });
-  if(pinBuf.length===4){
-    if(pinBuf===PIN){ sessionStorage.setItem("dogusfit_auth","1"); enterApp(); }
-    else{
-      document.getElementById("pinDots").classList.add("shake");
-      setTimeout(function(){ pinBuf=""; dots.forEach(function(d){d.classList.remove("full")}); document.getElementById("pinDots").classList.remove("shake"); },380);
-    }
-  }
-}
-function enterApp(){
-  document.getElementById("loginScreen").classList.add("hidden");
-  document.getElementById("app").classList.remove("hidden");
-  renderAll();
-}
-if(sessionStorage.getItem("dogusfit_auth")==="1") enterApp();
+/* Giriş ekranı yok — doğrudan uygulama açılır */
+document.getElementById("app").classList.remove("hidden");
+renderAll();
 
 /* ================= TABS ================= */
 function showTab(t){
@@ -374,8 +386,9 @@ function renderWorkout(){
       var done = !!d.ex[i];
       var div=document.createElement("div");
       div.className="ex"+(done?" done":"");
-      div.innerHTML='<div class="ex-check">'+(done?"✔":"")+'</div><div class="ex-name">'+e[0]+'</div><div class="ex-set">'+e[1]+'</div>';
-      div.onclick=function(){ d.ex[i]=!d.ex[i]; save(); renderWorkout(); };
+      div.innerHTML='<div class="ex-check">'+(done?"✔":"")+'</div><div class="ex-name">'+e[0]+(EXINFO[e[0]]?' <span class="ex-info-hint">ⓘ nasıl?</span>':'')+'</div><div class="ex-set">'+e[1]+'</div>';
+      div.querySelector(".ex-check").onclick=function(ev){ ev.stopPropagation(); d.ex[i]=!d.ex[i]; save(); renderWorkout(); };
+      div.onclick=function(){ if(EXINFO[e[0]]) showInfo(e[0],e[1]); else { d.ex[i]=!d.ex[i]; save(); renderWorkout(); } };
       list.appendChild(div);
     });
   }
@@ -387,6 +400,13 @@ function renderWorkout(){
   renderWeek(); renderStreak();
 }
 function finishWorkout(){ var d=day(); d.done=true; save(); toast("Antrenman kaydedildi! 🔥"); renderWorkout(); }
+function showInfo(name, sets){
+  var ov=document.createElement("div"); ov.id="infoOverlay";
+  ov.innerHTML='<div id="infoSheet"><h3>'+name+'</h3><div class="set-info">'+sets+' — set arası 60-90 sn dinlen</div><div class="desc">'+EXINFO[name]+'</div><button class="close-btn">Anladım, kapat</button></div>';
+  ov.onclick=function(e){ if(e.target===ov) document.body.removeChild(ov); };
+  ov.querySelector(".close-btn").onclick=function(){ document.body.removeChild(ov); };
+  document.body.appendChild(ov);
+}
 function dateKeyOffset(off){ var d=new Date(); d.setDate(d.getDate()+off); return d.getFullYear()+"-"+String(d.getMonth()+1).padStart(2,"0")+"-"+String(d.getDate()).padStart(2,"0"); }
 function renderWeek(){
   var dow=new Date().getDay(); var mondayOff = (dow===0? -6 : 1-dow);
@@ -428,18 +448,33 @@ function renderFood(){
   document.getElementById("ringKcal").innerHTML=ringSVG(k/s.kcal, k>s.kcal?"#E4002B":"#2E86DE");
   document.getElementById("proteinVal").textContent=p+" / "+s.protein+" g";
   document.getElementById("kcalVal").textContent=k+" / "+s.kcal;
+  // öğün çipleri
+  var mc=document.getElementById("mealChips");
+  mc.innerHTML="";
+  MEALS.forEach(function(m){
+    var b=document.createElement("button");
+    b.className="chip"+(m.id===currentMeal?" on":"");
+    b.textContent=m.n;
+    b.onclick=function(){ currentMeal=m.id; renderFood(); };
+    mc.appendChild(b);
+  });
+  // önerilen menü
+  var meal=MEALS.find(function(m){return m.id===currentMeal});
+  var mp=0,mk=0; meal.menu.forEach(function(i){mp+=FOODS[i].p;mk+=FOODS[i].k});
+  document.getElementById("menuBox").innerHTML=
+    '<div class="mtitle">Önerilen: '+meal.n.replace(/^\S+ /,"")+'</div>'+
+    '<div class="mitems">'+meal.desc+'<br>'+mp+' g protein · '+mk+' kcal</div>'+
+    '<button onclick="addMenu()">Menünün tamamını ekle ➕</button>';
   // grid
   var g=document.getElementById("foodGrid");
-  if(!g.dataset.built){
-    FOODS.forEach(function(f,i){
-      var b=document.createElement("button");
-      b.className="food-btn";
-      b.innerHTML="<b>"+f.n+"</b><small>"+f.p+" g protein · "+f.k+" kcal</small>";
-      b.onclick=function(){ addFood(i) };
-      g.appendChild(b);
-    });
-    g.dataset.built="1";
-  }
+  g.innerHTML="";
+  FOODS.forEach(function(f,i){
+    var b=document.createElement("button");
+    b.className="food-btn";
+    b.innerHTML="<b>"+f.n+"</b><small>"+f.p+" g protein · "+f.k+" kcal</small>";
+    b.onclick=function(){ addFood(i) };
+    g.appendChild(b);
+  });
   // water
   var wr=document.getElementById("waterRow"); wr.innerHTML="";
   for(var i=0;i<10;i++){
@@ -452,23 +487,42 @@ function renderFood(){
     })(i);
   }
   document.getElementById("waterLab").textContent=d.water+" / 10 bardak";
-  // log
+  // log — öğüne göre gruplu
   var lg=document.getElementById("foodLog");
-  if(d.foods.length===0){ lg.innerHTML='<div style="color:var(--ink-dim);font-size:13px">Henüz kayıt yok. Yukarıdan ekle.</div>'; }
+  if(d.foods.length===0){ lg.innerHTML='<div style="color:var(--ink-dim);font-size:13px">Henüz kayıt yok. Yukarıdan öğün seçip ekle.</div>'; }
   else{
     lg.innerHTML="";
-    d.foods.forEach(function(f,i){
-      var row=document.createElement("div"); row.className="log-item";
-      row.innerHTML="<span>"+f.n+" <small>"+f.t+"</small></span><span><small>"+f.p+"g · "+f.k+" kcal</small> <button class='del'>✕</button></span>";
-      row.querySelector(".del").onclick=function(){ d.foods.splice(i,1); save(); renderFood(); };
-      lg.appendChild(row);
+    MEALS.forEach(function(m){
+      var items=d.foods.map(function(f,idx){return {f:f,idx:idx}}).filter(function(x){return (x.f.m||"kahvalti")===m.id});
+      if(items.length===0) return;
+      var sp=0,sk=0; items.forEach(function(x){sp+=x.f.p;sk+=x.f.k});
+      var h=document.createElement("div"); h.className="meal-head";
+      h.innerHTML=m.n+" <small>· "+sp+" g · "+sk+" kcal</small>";
+      lg.appendChild(h);
+      items.forEach(function(x){
+        var row=document.createElement("div"); row.className="log-item";
+        row.innerHTML="<span>"+x.f.n+" <small>"+x.f.t+"</small></span><span><small>"+x.f.p+"g · "+x.f.k+" kcal</small> <button class='del'>✕</button></span>";
+        row.querySelector(".del").onclick=function(){ d.foods.splice(x.idx,1); save(); renderFood(); };
+        lg.appendChild(row);
+      });
     });
   }
 }
 function addFood(i){
   var f=FOODS[i], d=day();
   var t=new Date(); var ts=String(t.getHours()).padStart(2,"0")+":"+String(t.getMinutes()).padStart(2,"0");
-  d.foods.push({n:f.n,p:f.p,k:f.k,t:ts}); save(); renderFood(); toast("+"+f.p+" g protein 🍗");
+  d.foods.push({n:f.n,p:f.p,k:f.k,t:ts,m:currentMeal}); save(); renderFood(); toast("+"+f.p+" g protein 🍗");
+}
+function addMenu(){
+  var meal=MEALS.find(function(m){return m.id===currentMeal});
+  var d=day();
+  var t=new Date(); var ts=String(t.getHours()).padStart(2,"0")+":"+String(t.getMinutes()).padStart(2,"0");
+  var tp=0;
+  meal.menu.forEach(function(i){
+    var f=FOODS[i]; tp+=f.p;
+    d.foods.push({n:f.n,p:f.p,k:f.k,t:ts,m:currentMeal});
+  });
+  save(); renderFood(); toast(meal.n+" eklendi · +"+tp+" g 🍽️");
 }
 
 /* ================= ÖLÇÜM ================= */
@@ -602,7 +656,7 @@ function renderAll(){ renderWorkout(); renderFood(); renderMeasure(); renderSett
 (function(){
   var icon='<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><rect width="100" height="100" rx="24" fill="%23C8F135"/><text x="50" y="66" text-anchor="middle" font-size="48">💪</text></svg>';
   var man={
-    name:"Doğuş Fit", short_name:"Doğuş Fit",
+    name:"Umut Fit", short_name:"Umut Fit",
     start_url:".", display:"standalone",
     background_color:"#0B1F3A", theme_color:"#0B1F3A",
     icons:[{src:"data:image/svg+xml,"+icon, sizes:"any", type:"image/svg+xml"}]
