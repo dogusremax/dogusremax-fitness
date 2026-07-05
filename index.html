@@ -296,6 +296,35 @@ var EXINFO = {
 "Band pull-apart / havlu germe":"DURUŞ HAREKETİ: Salonda lastik direnç bandı varsa: bandı iki elle omuz genişliğinde önünde tut, kollarını YANLARA açarak bandı gerdir, kürek kemiklerini arkada sıkıştır, yavaş bırak. 15 tekrar.\n\nBant yoksa: havluyu gergin tutup aynı hareketi yap ve kürek kemiklerini 5 sn sıkılı tut."
 };
 
+/* YouTube arama sorguları — hareket başına */
+var EXVIDEO = {
+"Göğüs pres":"chest press makine nasıl yapılır",
+"Incline dumbbell pres":"incline dumbbell press nasıl yapılır",
+"Omuz pres":"shoulder press makine nasıl yapılır",
+"Lateral raise":"lateral raise nasıl yapılır dambıl",
+"Triceps pushdown":"triceps pushdown nasıl yapılır",
+"Lat pulldown":"lat pulldown nasıl yapılır",
+"Seated row":"seated cable row nasıl yapılır",
+"Dumbbell row":"dumbbell row nasıl yapılır",
+"Face pull":"face pull nasıl yapılır",
+"Biceps curl":"dumbbell biceps curl nasıl yapılır",
+"Leg press":"leg press makine nasıl yapılır",
+"Romanian deadlift":"romanian deadlift dambıl nasıl yapılır",
+"Leg curl":"leg curl makine nasıl yapılır",
+"Plank":"plank nasıl yapılır doğru form",
+"Cable crunch":"cable crunch nasıl yapılır",
+"Side plank":"side plank nasıl yapılır",
+"Squat":"goblet squat nasıl yapılır",
+"Bench press":"dumbbell bench press nasıl yapılır",
+"Barbell row":"barbell row nasıl yapılır",
+"Hanging knee raise":"hanging knee raise nasıl yapılır",
+"Duvar melekleri":"wall angels duvar melekleri egzersizi",
+"Göğüs esnetme (kapı)":"doorway chest stretch göğüs esnetme",
+"Çene çekme (chin tuck)":"chin tuck egzersizi nasıl yapılır",
+"Band pull-apart / havlu germe":"band pull apart nasıl yapılır",
+"Interval: 30 sn sprint + 60 sn yavaş":"hiit interval antrenman başlangıç"
+};
+
 /* Haftalık program: 0=Pazar ... 6=Cumartesi */
 var POSTURE = [["Duvar melekleri","10 tekrar"],["Göğüs esnetme (kapı)","30 sn/taraf"],["Çene çekme (chin tuck)","10 tekrar"],["Band pull-apart / havlu germe","15 tekrar"]];
 var PROGRAM = {
@@ -427,7 +456,8 @@ function renderWorkout(){
 function finishWorkout(){ var d=day(); d.done=true; save(); toast("Antrenman kaydedildi! 🔥"); renderWorkout(); }
 function showInfo(name, sets){
   var ov=document.createElement("div"); ov.id="infoOverlay";
-  ov.innerHTML='<div id="infoSheet"><h3>'+name+'</h3><div class="set-info">'+sets+' — set arası 60-90 sn dinlen</div><div class="desc">'+EXINFO[name]+'</div><button class="close-btn">Anladım, kapat</button></div>';
+  var ytBtn = EXVIDEO[name] ? '<a href="https://www.youtube.com/results?search_query='+encodeURIComponent(EXVIDEO[name])+'" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:14px;padding:13px;border-radius:14px;background:#FF0000;color:#fff;font-size:15px;font-weight:800;text-decoration:none">▶ YouTube\'da izle</a>' : '';
+  ov.innerHTML='<div id="infoSheet"><h3>'+name+'</h3><div class="set-info">'+sets+' — set arası 60-90 sn dinlen</div><div class="desc">'+EXINFO[name]+'</div>'+ytBtn+'<button class="close-btn">Anladım, kapat</button></div>';
   ov.onclick=function(e){ if(e.target===ov) document.body.removeChild(ov); };
   ov.querySelector(".close-btn").onclick=function(){ document.body.removeChild(ov); };
   document.body.appendChild(ov);
