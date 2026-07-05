@@ -135,7 +135,7 @@ nav button.active{color:var(--lime)}
 <header>
   <div class="brand">
     <div class="mini">💪</div>
-    <div><b>Umut Fit <span style="font-size:10px;color:var(--lime);font-weight:700">v10</span></b><small id="todayStr"></small></div>
+    <div><b>Umut Fit <span style="font-size:10px;color:var(--lime);font-weight:700">v11</span></b><small id="todayStr"></small></div>
   </div>
   <div id="streakBadge">🔥 0 gün</div>
 </header>
@@ -387,9 +387,7 @@ DB.days = DB.days || {};       // "2026-07-05": {ex:[true,false...], done:true, 
 DB.measures = DB.measures || []; // {d:"2026-07-05", w:85, b:98}
 function day(){ var k=todayKey(); if(!DB.days[k]) DB.days[k]={ex:[],done:false,water:0,foods:[]}; return DB.days[k]; }
 
-/* Giriş ekranı yok — doğrudan uygulama açılır */
-document.getElementById("app").classList.remove("hidden");
-renderAll();
+/* Başlatma script'in en sonunda */
 
 /* ================= TABS ================= */
 function showTab(t){
@@ -718,6 +716,10 @@ function renderAll(){ renderWorkout(); renderFood(); renderMeasure(); renderSett
   };
   document.getElementById("manifestLink").href="data:application/manifest+json,"+encodeURIComponent(JSON.stringify(man));
 })();
+
+/* Uygulamayı başlat — tüm tanımlar hazır olduktan sonra */
+document.getElementById("app").classList.remove("hidden");
+renderAll();
 </script>
 </body>
 </html>
