@@ -135,7 +135,7 @@ nav button.active{color:var(--lime)}
 <header>
   <div class="brand">
     <div class="mini">💪</div>
-    <div><b>Umut Fit <span style="font-size:10px;color:var(--lime);font-weight:700">v9</span></b><small id="todayStr"></small></div>
+    <div><b>Umut Fit <span style="font-size:10px;color:var(--lime);font-weight:700">v10</span></b><small id="todayStr"></small></div>
   </div>
   <div id="streakBadge">🔥 0 gün</div>
 </header>
@@ -456,8 +456,8 @@ function renderWorkout(){
 function finishWorkout(){ var d=day(); d.done=true; save(); toast("Antrenman kaydedildi! 🔥"); renderWorkout(); }
 function showInfo(name, sets){
   var ov=document.createElement("div"); ov.id="infoOverlay";
-  var ytBtn = EXVIDEO[name] ? '<a href="https://www.youtube.com/results?search_query='+encodeURIComponent(EXVIDEO[name])+'" target="_blank" rel="noopener" style="display:block;text-align:center;margin-top:14px;padding:13px;border-radius:14px;background:#FF0000;color:#fff;font-size:15px;font-weight:800;text-decoration:none">▶ YouTube\'da izle</a>' : '';
-  ov.innerHTML='<div id="infoSheet"><h3>'+name+'</h3><div class="set-info">'+sets+' — set arası 60-90 sn dinlen</div><div class="desc">'+EXINFO[name]+'</div>'+ytBtn+'<button class="close-btn">Anladım, kapat</button></div>';
+  var ytBtn = EXVIDEO[name] ? '<a href="https://www.youtube.com/results?search_query='+encodeURIComponent(EXVIDEO[name])+'" target="_blank" rel="noopener" style="display:block;text-align:center;padding:13px;border-radius:14px;background:#FF0000;color:#fff;font-size:15px;font-weight:800;text-decoration:none">▶ YouTube\'da izle</a>' : '';
+  ov.innerHTML='<div id="infoSheet"><h3>'+name+'</h3><div class="set-info">'+sets+' — set arası 60-90 sn dinlen</div>'+ytBtn+'<div class="desc" style="margin-top:14px">'+EXINFO[name]+'</div><button class="close-btn">Anladım, kapat</button></div>';
   ov.onclick=function(e){ if(e.target===ov) document.body.removeChild(ov); };
   ov.querySelector(".close-btn").onclick=function(){ document.body.removeChild(ov); };
   document.body.appendChild(ov);
